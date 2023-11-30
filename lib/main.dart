@@ -10,6 +10,7 @@ Future<void> main() async {
   global.prefs = await SharedPreferences.getInstance();
   global.selectedThem = global.prefs.getString('selectedThem');
   global.score = global.prefs.getInt('score') ?? 0;
+  global.prefs.clear();
   
 
   runApp(const MyApp());
@@ -79,7 +80,9 @@ class _MainPageState extends State<MainPage> {
                                 MaterialPageRoute(
                                     builder: (context) => const Menu()),
                               );
-                  HapticFeedback.lightImpact();
+                  setState(() {
+                    
+                  });
                 }, 
                 icon: Padding(
                   padding: const EdgeInsets.only(right: 10, bottom: 50),

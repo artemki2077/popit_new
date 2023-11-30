@@ -4,8 +4,8 @@ class User{
   final int score;
 
   const User({
-    required this.id, 
-    required this.name, 
+    required this.id,
+    required this.name,
     required this.score
   });
 
@@ -24,5 +24,10 @@ class User{
       "name": name,
       "score": score
     };
+  }
+
+  @override
+  String toString() {
+    return 'User(id=$id, name=$name, score=$score)';
   }
 }

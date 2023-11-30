@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'global.dart' as global;
 
 class Thems extends StatefulWidget {
-  const Thems({super.key});
+  final stater;
+  const Thems({super.key, required this.stater});
 
   @override
   State<Thems> createState() => _ThemsState();
@@ -17,6 +18,7 @@ class _ThemsState extends State<Thems> {
       res.add(Them(
         name: key,
         index: i,
+        stater: widget.stater,
       ));
     });
     return res;
@@ -24,13 +26,10 @@ class _ThemsState extends State<Thems> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 3,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: generateThems(),
-        ),
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: generateThems(),
       ),
     );
   }
@@ -39,7 +38,8 @@ class _ThemsState extends State<Thems> {
 class Them extends StatefulWidget {
   final name;
   final index;
-  const Them({super.key, required this.name, required this.index});
+  final stater;
+  const Them({super.key, required this.name, required this.index, required this.stater});
 
   @override
   State<Them> createState() => _ThemState();
@@ -63,11 +63,11 @@ class _ThemState extends State<Them> {
                           borderRadius: BorderRadius.circular(100))),
                   onPressed: () {
                     HapticFeedback.lightImpact();
-                    global.selectedThem = name;
-                    setState(() {
-                      global.prefs
-                          .setString("selectedThem", global.selectedThem!);
-                    });
+                    
+                    widget.stater((){
+                        global.selectedThem = name;
+                      global.prefs.setString("selectedThem", global.selectedThem!);
+                      });
                   },
                   child: Container(
                       width: 150,
@@ -100,7 +100,7 @@ class _ThemState extends State<Them> {
           Text(
             name,
             style: TextStyle(
-              color: global.thems[name]['text'],
+              color: global.thems[global.selectedThem]['text'],
             ),
           ),
         ],

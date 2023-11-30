@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'global.dart' as global;
-import 'package:flutter/services.dart';
 import 'online.dart';
 import 'themes.dart';
 
@@ -33,11 +32,12 @@ class _MenuState extends State<Menu> {
               fontSize: 50, color: global.thems[global.selectedThem]['text']),
         ),
       ),
-      body: const Center(
-        child: Column(children: [
-          Online(),
-          Spacer(),
-          Thems(),
+      body: Center(
+        child: ListView(
+          children: [
+            const Online(),
+            // const Spacer(),
+            Thems(stater: setState),
         ]),
       ),
     );

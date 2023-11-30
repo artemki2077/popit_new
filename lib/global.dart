@@ -24,5 +24,6 @@ late int score;
 User? user;
 String? selectedThem = "Cobalt";
 Map thems = {
-  "Cobalt": {"text": CupertinoColors.white, "bg": CupertinoColors.link, "btn": CupertinoColors.destructiveRed, 'add': Colors.black}
+  "Cobalt": {"text": CupertinoColors.white, "bg": CupertinoColors.link,         "btn": CupertinoColors.destructiveRed, 'add': Colors.black},
+  "Kari":   {"text": CupertinoColors.black, "bg": CupertinoColors.systemOrange, "btn": Colors.deepPurple,              "add": Colors.deepPurple}
 };
