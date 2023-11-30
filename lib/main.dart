@@ -10,6 +10,8 @@ Future<void> main() async {
   global.prefs = await SharedPreferences.getInstance();
   global.selectedThem = global.prefs.getString('selectedThem');
   global.score = global.prefs.getInt('score') ?? 0;
+  
+
   runApp(const MyApp());
 }
 
@@ -39,11 +41,11 @@ class _MainPageState extends State<MainPage> {
 
   double generatePosTop(BuildContext context) {
     return (Random().nextDouble() *
-        (MediaQuery.of(context).size.height - 180 - 90));
+        (MediaQuery.of(context).size.height - 180 - 75));
   }
 
   double generatePosLeft(BuildContext context) {
-    return (Random().nextDouble() * (MediaQuery.of(context).size.width - 90));
+    return (Random().nextDouble() * (MediaQuery.of(context).size.width - 75));
   }
 
   @override
@@ -72,17 +74,20 @@ class _MainPageState extends State<MainPage> {
               IconButton(
                 onPressed: () async {
                   HapticFeedback.lightImpact();
-                  var res = await Navigator.push(
+                  await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const Menu()),
                               );
                   HapticFeedback.lightImpact();
                 }, 
-                icon: Icon(
-                  Icons.menu_rounded,
-                  size: 50,
-                  color: global.thems[global.selectedThem]['text'],
+                icon: Padding(
+                  padding: const EdgeInsets.only(right: 10, bottom: 50),
+                  child: Icon(
+                    Icons.menu_rounded,
+                    size: 45,
+                    color: global.thems[global.selectedThem]['text'],
+                  ),
                 )
               )
             ]),
@@ -94,13 +99,13 @@ class _MainPageState extends State<MainPage> {
             margin: EdgeInsets.only(
               top: top,
               left: left,
-              right: MediaQuery.of(context).size.width - left - 90,
-              bottom: MediaQuery.of(context).size.height - top - 90 - 180,
+              right: MediaQuery.of(context).size.width - left - 75,
+              bottom: MediaQuery.of(context).size.height - top - 75 - 180,
             ),
             key: UniqueKey(),
             child: SizedBox(
-              width: 90,
-              height: 90,
+              width: 75,
+              height: 75,
               child: FloatingActionButton(
                   onPressed: () async {
                     HapticFeedback.heavyImpact();

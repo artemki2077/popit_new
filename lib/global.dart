@@ -2,6 +2,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'models/User.dart';
+
 late SharedPreferences prefs;
 Uri urlToDb = Uri.parse('https://script.google.com/macros/s/AKfycbxC9XgKgEi-hlv59HZxmdXO1VwK2054wauOFuQMSi7wYylewjjenFxJ9gCdM_8TPHAG/exec');
 late int score;
@@ -19,7 +21,7 @@ late int score;
 // ];
 
 
-
+User? user;
 String? selectedThem = "Cobalt";
 Map thems = {
   "Cobalt": {"text": CupertinoColors.white, "bg": CupertinoColors.link, "btn": CupertinoColors.destructiveRed, 'add': Colors.black}
