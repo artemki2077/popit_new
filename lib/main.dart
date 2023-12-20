@@ -1,3 +1,4 @@
+import 'repo/repo.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
@@ -10,9 +11,8 @@ Future<void> main() async {
   global.prefs = await SharedPreferences.getInstance();
   global.selectedThem = global.prefs.getString('selectedThem');
   global.score = global.prefs.getInt('score') ?? 0;
-  global.prefs.clear();
-  
-
+  // global.prefs.clear();
+  updateData();
   runApp(const MyApp());
 }
 
@@ -115,6 +115,7 @@ class _MainPageState extends State<MainPage> {
                     setState(() {
                       global.score ++;
                     });
+                    updateData();
                     global.prefs.setInt('score', global.score);
                   },
                   elevation: 0,

@@ -29,13 +29,15 @@ class _MenuState extends State<Menu> {
         title: Text(
           'Menu',
           style: TextStyle(
-              fontSize: 50, color: global.thems[global.selectedThem]['text']),
+              fontSize: 50, color: global.thems[global.selectedThem]['text'],
+              fontWeight: FontWeight.w500
+          ),
         ),
       ),
       body: Center(
         child: ListView(
           children: [
-            const Online(),
+            Online(theme: global.thems[global.selectedThem],),
             // const Spacer(),
             Thems(stater: setState),
         ]),

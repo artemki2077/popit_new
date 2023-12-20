@@ -4,11 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
-import 'models/User.dart';
+import 'models/user.dart';
 
 
 class Online extends StatefulWidget {
-  const Online({super.key});
+  final Map theme;
+  const Online({super.key, required this.theme});
 
   @override
   State<Online> createState() => _OnlineState();
@@ -19,6 +20,7 @@ class _OnlineState extends State<Online> {
   String? state = '';
   bool? isValidForm;
   late String name;
+  int? userPlace;
   List<User>? users;
 
   List leaderTextStyles = const [
@@ -41,7 +43,6 @@ class _OnlineState extends State<Online> {
     if (response.statusCode == 200) {
       String source = const Utf8Decoder().convert(response.bodyBytes);
       Map<String, dynamic> data = jsonDecode(source);
-      print(data);
       setState(() {
         global.prefs.setInt('id', data['id']);
         global.prefs.setString('name', data['name']);
@@ -64,7 +65,6 @@ class _OnlineState extends State<Online> {
   }
 
   Future<void> getAll() async{
-    // try{
       http.Response response = await http.get(Uri.https(
       'script.google.com',
       '/macros/s/AKfycbxC9XgKgEi-hlv59HZxmdXO1VwK2054wauOFuQMSi7wYylewjjenFxJ9gCdM_8TPHAG/exec',
@@ -76,15 +76,16 @@ class _OnlineState extends State<Online> {
     if (response.statusCode == 200) {
       String source = const Utf8Decoder().convert(response.bodyBytes);
       List data = jsonDecode(source);
+      print(data);
       users = data.map((e)=>User.fromJson(e)).toList();
       users!.sort((a, b)=>b.score.compareTo(a.score));
-      print(users);
+      
+      userPlace = users!.indexOf(User(id: global.prefs.getInt('id')!, name: global.prefs.getString('name')!, score: global.prefs.getInt('score')!)) + 1;   
       setState(() {
         state = 'table';
       });
       
     }else{
-      print('no_else');
       setState(() {
         state = 'no_internet';
       });
@@ -136,12 +137,15 @@ class _OnlineState extends State<Online> {
                   },
                   validator: (val) => val!.isEmpty || val.length > 10  ? "ник должно быть короче 10 символов" : null,
                   decoration: InputDecoration(
-                    fillColor: global.thems[global.selectedThem]['add']
-                        .withOpacity(0.2),
+                    fillColor: global.thems[global.selectedThem]['add'].withOpacity(0.4),
+                    // prefixIconColor: global.thems[global.selectedThem]['bg'],
+                    // suffixIconColor: global.thems[global.selectedThem]['bg'],
+                    // hoverColor: global.thems[global.selectedThem]['bg'],
                     filled: true,
                     hintText: "имя",
                     hintStyle: TextStyle(
-                        color: global.thems[global.selectedThem]['bg']),
+                        color: global.thems[global.selectedThem]['bg'],
+                    ),
                     border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(20.0)),
@@ -165,10 +169,11 @@ class _OnlineState extends State<Online> {
         
                     },
                     elevation: 0,
-                    backgroundColor: global.thems[global.selectedThem]['add'].withOpacity(0.2),
+                    backgroundColor: global.thems[global.selectedThem]['add'].withOpacity(0.4),
                     child: Icon(
                       Icons.arrow_forward_rounded,
-                      color: global.thems[global.selectedThem]['text'],
+                      // weight: 700,
+                      color: global.thems[global.selectedThem]['bg'],
                     ),
                   ),
                 )
@@ -196,7 +201,7 @@ class _OnlineState extends State<Online> {
                   ),
                 ],
                 rows:  [
-                  for(int i = 0;i<=5;i++)
+                  for(int i = 0;i<=4;i++)
                     if(i <= 2)
                       DataRow(cells:[
                         DataCell(Text((i + 1).toString(), style: leaderTextStyles[i],)),
@@ -209,6 +214,7 @@ class _OnlineState extends State<Online> {
                         DataCell(Text(users![i].name.toString())),
                         DataCell(Text(users![i].score.toString())),
                       ]),
+
                 ]
               ),
             ),
